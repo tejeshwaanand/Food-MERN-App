@@ -13,7 +13,7 @@ export default function Home() {
     const [foodcat, setfoodcat] = useState([])
     const [fooditem, setfooditem] = useState([])
     const loadData = async () => {
-        let response = await fetch("http://localhost:5000/api/fooddata", {
+        let response = await fetch(`${process.env.REACT_APP_API_URL}/api/fooddata`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
