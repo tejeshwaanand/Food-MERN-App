@@ -61,39 +61,37 @@ export default function Home() {
                 </button>
             </div></div>
             <div className='container'>
-                {
-                    foodcat !== empty
-                        ?
-                        foodcat.map((data) => {
-                            return (
-                                <div className='row mb-3'>
-
-                                    <div key={data._id} className='fs-3 m-3'>{data.CategoryName}</div>
-                                    <hr />
-                                    {
-                                        fooditem !== empty ? fooditem.filter((item) => (item.CategoryName === data.CategoryName)&& (item.name.toLowerCase().includes(search.toLowerCase())))
-                                            .map(filteritem => {
-                                                return (
-                                                    <div key={filteritem._id} className='col-12 col-md-6 col-lg-3' >
-                                                        <Card 
-                                                            fooditem={filteritem}
-                                                        // foodname={filteritem.name}
-                                                            options={filteritem.options[0]}
-                                                            // imgsrc={filteritem.img}
-                                                            // description={filteritem.description}
-                                                        ></Card>
-                                                    </div>
-                                                )
-                                            })
-                                            : <div>No such data found</div>
-                                    }
-                                </div>
-                            )
-                        }) :
-                        <div>adsda</div>
-
-
-                }
+            {
+        Array.isArray(foodcat) && foodcat.length > 0 ? (
+            foodcat.map((data) => (
+                <div className='row mb-3' key={data._id}>
+                    <div className='fs-3 m-3'>{data.CategoryName}</div>
+                    <hr />
+                    {
+                        Array.isArray(fooditem) && fooditem.length > 0 ? (
+                            fooditem
+                                .filter((item) => 
+                                    item.CategoryName === data.CategoryName && 
+                                    item.name.toLowerCase().includes(search.toLowerCase())
+                                )
+                                .map((filteritem) => (
+                                    <div key={filteritem._id} className='col-12 col-md-6 col-lg-3'>
+                                        <Card
+                                            fooditem={filteritem}
+                                            options={filteritem.options?.[0] || {}}
+                                        />
+                                    </div>
+                                ))
+                        ) : (
+                            <div>No such data found</div>
+                        )
+                    }
+                </div>
+            ))
+        ) : (
+            <div>Loading categories...</div>
+        )
+    }
 
             </div>
             <div><Footer /></div>
